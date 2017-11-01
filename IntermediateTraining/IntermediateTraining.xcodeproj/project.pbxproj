@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50D09DF31FA9F71400D9906E /* IntermediateTrainingModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50D09DF11FA9F71400D9906E /* IntermediateTrainingModels.xcdatamodeld */; };
+		50D09DF51FA9FD6C00D9906E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D09DF41FA9FD6C00D9906E /* CoreDataManager.swift */; };
 		50D2447A1FA8B1E000896BC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D244791FA8B1E000896BC5 /* AppDelegate.swift */; };
 		50D2447C1FA8B1E000896BC5 /* CompaniesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D2447B1FA8B1E000896BC5 /* CompaniesController.swift */; };
 		50D2447F1FA8B1E000896BC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50D2447D1FA8B1E000896BC5 /* Main.storyboard */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		50D09DF21FA9F71400D9906E /* IntermediateTrainingModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IntermediateTrainingModels.xcdatamodel; sourceTree = "<group>"; };
+		50D09DF41FA9FD6C00D9906E /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		50D244761FA8B1E000896BC5 /* IntermediateTraining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntermediateTraining.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D244791FA8B1E000896BC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50D2447B1FA8B1E000896BC5 /* CompaniesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompaniesController.swift; sourceTree = "<group>"; };
@@ -62,7 +66,9 @@
 			children = (
 				50D244791FA8B1E000896BC5 /* AppDelegate.swift */,
 				50D2447B1FA8B1E000896BC5 /* CompaniesController.swift */,
+				50D09DF11FA9F71400D9906E /* IntermediateTrainingModels.xcdatamodeld */,
 				50D2448F1FA9E4E600896BC5 /* CreateCompanyController.swift */,
+				50D09DF41FA9FD6C00D9906E /* CoreDataManager.swift */,
 				50D2448D1FA9E02400896BC5 /* Company.swift */,
 				50D2448B1FA9D39300896BC5 /* UIColor+theme.swift */,
 				50D2447D1FA8B1E000896BC5 /* Main.storyboard */,
@@ -149,6 +155,8 @@
 				50D2447C1FA8B1E000896BC5 /* CompaniesController.swift in Sources */,
 				50D244901FA9E4E600896BC5 /* CreateCompanyController.swift in Sources */,
 				50D2447A1FA8B1E000896BC5 /* AppDelegate.swift in Sources */,
+				50D09DF31FA9F71400D9906E /* IntermediateTrainingModels.xcdatamodeld in Sources */,
+				50D09DF51FA9FD6C00D9906E /* CoreDataManager.swift in Sources */,
 				50D2448E1FA9E02400896BC5 /* Company.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,6 +342,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		50D09DF11FA9F71400D9906E /* IntermediateTrainingModels.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				50D09DF21FA9F71400D9906E /* IntermediateTrainingModels.xcdatamodel */,
+			);
+			currentVersion = 50D09DF21FA9F71400D9906E /* IntermediateTrainingModels.xcdatamodel */;
+			path = IntermediateTrainingModels.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 50D2446E1FA8B1E000896BC5 /* Project object */;
 }

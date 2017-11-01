@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 // Custom Delegation
 
@@ -18,8 +19,6 @@ class CreateCompanyController: UIViewController {
     
     // Not tightly coupled
     var delegate: CreateCompanyControllerDelegate?
-    
-//    var companiesController: CompaniesController?
     
     let nameLabel: UILabel = {
         let label = UILabel()
@@ -79,12 +78,19 @@ class CreateCompanyController: UIViewController {
     }
     
     @objc func handleSave() {
-        dismiss(animated: true) {
-            guard let name = self.nameTextField.text else { return }
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+
+        let company = NSEntityDescription.insertNewObject(forEntityName: "Company", into: context)
+        company.setValue(nameTextField.text, forKey: "name")
+        
+        do {
+            try context.save()
             
-            let company = Company(name: name, founded: Date())
-            
-            self.delegate?.didAddCompany(company: company)
+            dismiss(animated: true, completion: {
+                self.delegate?.didAddCompany(company: company as! Company)
+            })
+        } catch let saveError {
+            print("Failed to save company: \(saveError)")
         }
     }
  

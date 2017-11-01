@@ -7,14 +7,11 @@
 //
 
 import UIKit
+import CoreData
 
 class CompaniesController: UITableViewController, CreateCompanyControllerDelegate {
 
-    var companies = [
-        Company(name: "Apple", founded: Date()),
-        Company(name: "Google", founded: Date()),
-        Company(name: "Facebook", founded: Date())
-    ]
+    var companies = [Company]()
     
     func didAddCompany(company: Company) {
         companies.append(company)
@@ -23,25 +20,38 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         tableView.insertRows(at: [newIndexPath], with: .automatic)
     }
     
-//    func addCompany(company: Company) {
-//        // 1. Modify array
-//        companies.append(company)
-//
-//        // 2. Insert New IndexPath into TableView
-//        let newIndexPath = IndexPath(row: companies.count - 1, section: 0)
-//        tableView.insertRows(at: [newIndexPath], with: .automatic)
-//    }
+    private func fetchCompanies() {
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<Company>(entityName: "Company")
+        
+        do {
+            let companies = try context.fetch(fetchRequest)
+            
+            companies.forEach({ (company) in
+                print(company.name ?? "")
+            })
+            
+            self.companies = companies
+            self.tableView.reloadData()
+            
+        } catch let fetchError {
+            print("Failed to fetch companies: \(fetchError)")
+        }
+    }
     
     // MARK: lifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        fetchCompanies()
         
         view.backgroundColor = .white
         
         navigationItem.title = "Companies"
         
         tableView.backgroundColor = .darkBlue
-//        tableView.separatorStyle = .none
+
         tableView.separatorColor = .white
         tableView.tableFooterView = UIView() // get rid of lines at the bottom
         
