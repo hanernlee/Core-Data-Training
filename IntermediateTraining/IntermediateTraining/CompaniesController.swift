@@ -40,7 +40,7 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         }
     }
     
-    // MARK: lifeCycle
+    // MARK: view lifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
