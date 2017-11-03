@@ -69,7 +69,6 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         print("Adding company")
         
         let createCompanyController = CreateCompanyController()
-//        createCompanyController.view.backgroundColor = .green
         
         let navController = CustomNavigationController(rootViewController: createCompanyController)
         
