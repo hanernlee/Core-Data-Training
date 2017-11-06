@@ -20,6 +20,13 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         tableView.insertRows(at: [newIndexPath], with: .automatic)
     }
     
+    func didEditCompany(company: Company) {
+        let row = companies.index(of: company)
+        
+        let reloadIndexPath = IndexPath(row: row!, section: 0)
+        tableView.reloadRows(at: [reloadIndexPath], with: .middle)
+    }
+    
     private func fetchCompanies() {
         let context = CoreDataManager.shared.persistentContainer.viewContext
         
@@ -72,7 +79,6 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         
         let navController = CustomNavigationController(rootViewController: createCompanyController)
         
-        // Delegate
         createCompanyController.delegate = self
         
         present(navController, animated: true, completion: nil)
@@ -101,11 +107,62 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         
         let company = companies[indexPath.row]
         
-        cell.textLabel?.text = company.name
+        if let name = company.name, let founded = company.founded {
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM dd, yyyy"
+            
+            let foundedDateString = dateFormatter.string(from: founded)
+            let dateString = "\(name) - Founded: \(foundedDateString)"
+            
+            cell.textLabel?.text = dateString
+        } else {
+            cell.textLabel?.text = company.name
+        }
+        
         cell.textLabel?.textColor = .white
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") {
+            (_, indexPath) in
+            let company = self.companies[indexPath.row]
+            print("Attempting to delete company", company.name ?? "")
+            
+            // Remove company from tableView
+            self.companies.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            // Delete company from coreData
+            let context = CoreDataManager.shared.persistentContainer.viewContext
+            context.delete(company)
+            
+            do {
+                try context.save()
+            } catch let saveError {
+                print("Failed to delete company:", saveError)
+            }
+        }
+        deleteAction.backgroundColor = UIColor.lightRed
+        
+        let editAction = UITableViewRowAction(style: .normal, title: "Edit", handler: editHandlerAction)
+        editAction.backgroundColor = UIColor.darkBlue
+        
+        return [deleteAction, editAction]
+    }
+    
+    private func editHandlerAction(action: UITableViewRowAction, indexPath: IndexPath) {
+        print("Edit handler function")
+        
+        let editCompanyController = CreateCompanyController()
+        editCompanyController.delegate = self
+        editCompanyController.company = companies[indexPath.row]
+        let navController = CustomNavigationController(rootViewController: editCompanyController)
+        
+        present(navController, animated: true, completion: nil)
     }
 }
 
