@@ -64,12 +64,51 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
         
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: "Reset",
+            style: .plain,
+            target: self,
+            action: #selector(handleReset)
+        )
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: #imageLiteral(resourceName: "plus").withRenderingMode(.alwaysOriginal),
             style: .plain,
             target: self,
             action: #selector(handleAddCompany)
         )
+    }
+    
+    @objc private func handleReset() {
+        print("Attempting to delete all Core Data Objects")
+        
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        
+        companies.forEach {
+            (company) in
+            context.delete(company)
+        }
+        
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: Company.fetchRequest())
+        
+        do {
+            try context.execute(batchDeleteRequest)
+            
+            var indexPathsToRemove = [IndexPath]()
+            
+            for (index, _) in companies.enumerated() {
+                let indexPath = IndexPath(row: index, section: 0)
+                indexPathsToRemove.append(indexPath)
+            }
+            companies.removeAll()
+            tableView.deleteRows(at: indexPathsToRemove, with: .left)
+            
+//            companies.removeAll()
+//            tableView.reloadData()
+            
+        } catch let deleteError {
+            print("Failed to delete objects from Core Data:", deleteError)
+        }
     }
     
     @objc func handleAddCompany() {
@@ -90,6 +129,19 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         let view = UIView()
         view.backgroundColor = .lightBlue
         return view
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "No Companies available..."
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        return label
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return companies.count == 0 ? 150 : 0
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -122,6 +174,12 @@ class CompaniesController: UITableViewController, CreateCompanyControllerDelegat
         
         cell.textLabel?.textColor = .white
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        
+        cell.imageView?.image = #imageLiteral(resourceName: "select_photo_empty")
+        
+        if let imageData = company.imageData {
+            cell.imageView?.image = UIImage(data: imageData)
+        }
         
         return cell
     }
