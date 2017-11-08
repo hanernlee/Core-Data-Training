@@ -13,31 +13,11 @@ class CompaniesController: UITableViewController {
 
     var companies = [Company]()
     
-    private func fetchCompanies() {
-        let context = CoreDataManager.shared.persistentContainer.viewContext
-        
-        let fetchRequest = NSFetchRequest<Company>(entityName: "Company")
-        
-        do {
-            let companies = try context.fetch(fetchRequest)
-            
-            companies.forEach({ (company) in
-                print(company.name ?? "")
-            })
-            
-            self.companies = companies
-            self.tableView.reloadData()
-            
-        } catch let fetchError {
-            print("Failed to fetch companies: \(fetchError)")
-        }
-    }
-    
     // MARK: view lifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchCompanies()
+        self.companies = CoreDataManager.shared.fetchCompanies()
         
         view.backgroundColor = .white
         
