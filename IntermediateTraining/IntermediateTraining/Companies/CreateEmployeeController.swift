@@ -9,5 +9,12 @@
 import UIKit
 
 class CreateEmployeeController: UIViewController {
-    
+    override func viewDidLoad() {
+        
+        navigationItem.title = "Create Employee"
+        
+        setupCancelButton()
+        
+        view.backgroundColor = .darkBlue
+    }
 }

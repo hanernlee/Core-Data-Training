@@ -15,7 +15,19 @@ extension UIViewController {
             image: #imageLiteral(resourceName: "plus").withRenderingMode(.alwaysOriginal),
             style: .plain,
             target: self,
-            action: #selector(selector)
+            action: selector
         )
+    }
+    
+    func setupCancelButton() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: "Cancel",
+            style: .plain,
+            target: self,
+            action: #selector(handleCancelModal))
+    }
+    
+    @objc func handleCancelModal() {
+        dismiss(animated: true, completion: nil)
     }
 }

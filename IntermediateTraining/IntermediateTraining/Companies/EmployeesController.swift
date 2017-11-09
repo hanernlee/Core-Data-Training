@@ -29,5 +29,10 @@ class EmployeesController: UITableViewController {
     
     @objc private func handleAdd() {
         print("Trying to add employee")
+        
+        let createEmployeeController = CreateEmployeeController()
+        let navController = UINavigationController(rootViewController: createEmployeeController)
+        
+        present(navController, animated: true, completion: nil)
     }
 }

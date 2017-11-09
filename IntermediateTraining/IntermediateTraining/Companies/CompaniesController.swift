@@ -37,7 +37,7 @@ class CompaniesController: UITableViewController {
             action: #selector(handleReset)
         )
         
-        setupPlusButtonInNav(selector: #selector(handleAdd))
+        setupPlusButtonInNav(selector: #selector(handleAddCompany))
     }
     
     @objc private func handleReset() {

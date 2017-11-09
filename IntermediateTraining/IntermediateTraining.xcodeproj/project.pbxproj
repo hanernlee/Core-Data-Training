@@ -68,12 +68,13 @@
 		50B0F52D1FB1DE7E0072A414 /* Companies */ = {
 			isa = PBXGroup;
 			children = (
-				50D2447B1FA8B1E000896BC5 /* CompaniesController.swift */,
-				503BB8531FB4778300F08F6A /* EmployeesController.swift */,
 				50B0F5301FB1EC320072A414 /* CompaniesController+UITableView.swift */,
 				50B0F52E1FB1EB7C0072A414 /* CompaniesController+CreateCompany.swift */,
 				50B0F52B1FB1DD610072A414 /* CompanyCell.swift */,
+				50D2447B1FA8B1E000896BC5 /* CompaniesController.swift */,
+				50D2448F1FA9E4E600896BC5 /* CreateCompanyController.swift */,
 				503BB8581FB50C1200F08F6A /* CreateEmployeeController.swift */,
+				503BB8531FB4778300F08F6A /* EmployeesController.swift */,
 			);
 			path = Companies;
 			sourceTree = "<group>";
@@ -101,7 +102,6 @@
 				50B0F52D1FB1DE7E0072A414 /* Companies */,
 				50D244791FA8B1E000896BC5 /* AppDelegate.swift */,
 				50D09DF11FA9F71400D9906E /* IntermediateTrainingModels.xcdatamodeld */,
-				50D2448F1FA9E4E600896BC5 /* CreateCompanyController.swift */,
 				50D09DF41FA9FD6C00D9906E /* CoreDataManager.swift */,
 				50D2448D1FA9E02400896BC5 /* Company.swift */,
 				50D2448B1FA9D39300896BC5 /* UIColor+theme.swift */,
