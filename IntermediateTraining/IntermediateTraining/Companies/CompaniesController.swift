@@ -37,12 +37,7 @@ class CompaniesController: UITableViewController {
             action: #selector(handleReset)
         )
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: #imageLiteral(resourceName: "plus").withRenderingMode(.alwaysOriginal),
-            style: .plain,
-            target: self,
-            action: #selector(handleAddCompany)
-        )
+        setupPlusButtonInNav(selector: #selector(handleAdd))
     }
     
     @objc private func handleReset() {

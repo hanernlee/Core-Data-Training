@@ -10,6 +10,11 @@ import UIKit
 
 extension CompaniesController {
     // MARK: tableView
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let employeesController = EmployeesController()
+        navigationController?.pushViewController(employeesController, animated: true)
+    }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
