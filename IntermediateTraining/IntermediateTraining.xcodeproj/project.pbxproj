@@ -68,15 +68,23 @@
 		50B0F52D1FB1DE7E0072A414 /* Companies */ = {
 			isa = PBXGroup;
 			children = (
+				50C985681FB5ECC000EFB335 /* Employees */,
 				50B0F5301FB1EC320072A414 /* CompaniesController+UITableView.swift */,
 				50B0F52E1FB1EB7C0072A414 /* CompaniesController+CreateCompany.swift */,
 				50B0F52B1FB1DD610072A414 /* CompanyCell.swift */,
 				50D2447B1FA8B1E000896BC5 /* CompaniesController.swift */,
 				50D2448F1FA9E4E600896BC5 /* CreateCompanyController.swift */,
+			);
+			path = Companies;
+			sourceTree = "<group>";
+		};
+		50C985681FB5ECC000EFB335 /* Employees */ = {
+			isa = PBXGroup;
+			children = (
 				503BB8581FB50C1200F08F6A /* CreateEmployeeController.swift */,
 				503BB8531FB4778300F08F6A /* EmployeesController.swift */,
 			);
-			path = Companies;
+			path = Employees;
 			sourceTree = "<group>";
 		};
 		50D2446D1FA8B1E000896BC5 = {
