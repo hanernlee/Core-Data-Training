@@ -20,10 +20,10 @@ class EmployeesController: UITableViewController, CreateEmployeeControllerDelega
     func didAddEmployee(employee: Employee) {
         employees.append(employee)
         
-        let newIndexPath = IndexPath(row: employees.count - 1, section: 0)
-        tableView.insertRows(at: [newIndexPath], with: .automatic)
+//        let newIndexPath = IndexPath(row: employees.count - 1, section: 0)
+//        tableView.insertRows(at: [newIndexPath], with: .automatic)
         
-//        tableView.reloadData()
+        tableView.reloadData()
     }
     
     // MARK: - View Lifecycle
@@ -77,8 +77,12 @@ class EmployeesController: UITableViewController, CreateEmployeeControllerDelega
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
         let employee = employees[indexPath.row]
-        
         cell.textLabel?.text = employee.name
+
+        if let taxId = employee.employeeInformation?.taxId {
+            cell.textLabel?.text = "\(employee.name ?? "")    \(taxId)"
+        }
+        
         cell.textLabel?.textColor = .white
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         cell.backgroundColor = .tealColor
