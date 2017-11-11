@@ -30,14 +30,75 @@ class CompaniesController: UITableViewController {
         
         tableView.register(CompanyCell.self, forCellReuseIdentifier: "cellId")
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Reset",
-            style: .plain,
-            target: self,
-            action: #selector(handleReset)
-        )
+        navigationItem.leftBarButtonItems = [
+            UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(handleReset)),
+            UIBarButtonItem(title: "Do Updates", style: .plain, target: self, action: #selector(doUpdates))
+        ]
         
         setupPlusButtonInNav(selector: #selector(handleAddCompany))
+    }
+    
+    @objc private func doUpdates() {
+        print("Trying to update compannies in background context")
+        
+        CoreDataManager.shared.persistentContainer.performBackgroundTask({ (backgroundContext) in
+            
+            let request: NSFetchRequest<Company> = Company.fetchRequest()
+            
+            do {
+                let companies = try backgroundContext.fetch(request)
+                
+                companies.forEach { (company) in
+                    print(company.name ?? "")
+                    company.name = "A: \(company.name ?? "")"
+                }
+
+                do {
+                    try backgroundContext.save()
+                    
+                    DispatchQueue.main.async {
+                        
+                        // Bad method: reset() will forget all of the objects fetched before
+                        CoreDataManager.shared.persistentContainer.viewContext.reset()
+                        self.companies = CoreDataManager.shared.fetchCompanies()
+                        self.tableView.reloadData()
+                    }
+                    
+                } catch let error {
+                    print("Failed to save", error)
+                }
+            } catch let error {
+                print("Failed fetching companies", error)
+            }
+        })
+    }
+    
+    @objc private func doWork() {
+        print("Trying to create companies in the background")
+        
+        CoreDataManager.shared.persistentContainer.performBackgroundTask({ (backgroundContext) in
+            (0...5).forEach { (value) in
+                let company = Company(context: backgroundContext)
+                company.name = String(value)
+            }
+            
+            do {
+                try backgroundContext.save()
+                
+                DispatchQueue.main.async {
+                    self.companies = CoreDataManager.shared.fetchCompanies()
+                    self.tableView.reloadData()
+                }
+                
+            } catch let error {
+                print("Failed to save", error)
+            }
+        })
+        
+        // Grand Central Dispatch
+//        DispatchQueue.global(qos: .background).async  {
+//            // Creating some company objects in a background thread
+//        }
     }
     
     @objc private func handleReset() {
