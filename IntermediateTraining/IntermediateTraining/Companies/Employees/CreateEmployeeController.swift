@@ -35,7 +35,7 @@ class CreateEmployeeController: UIViewController {
     
     let birthdayLabel: UILabel = {
         let label = UILabel()
-        label.text = "Name"
+        label.text = "Birthday"
         
         // Enable auto-layout
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -47,6 +47,21 @@ class CreateEmployeeController: UIViewController {
         textField.placeholder = "MM/dd/yyyy"
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
+    }()
+    
+    let employeeTypeSegmentedControl: UISegmentedControl = {
+        let types = [
+            EmployeeType.Executive.rawValue,
+            EmployeeType.SeniorManagement.rawValue,
+            EmployeeType.Staff.rawValue,
+            EmployeeType.Intern.rawValue
+        ]
+        
+        let sc = UISegmentedControl(items: types)
+        sc.selectedSegmentIndex = 0
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.tintColor = .darkBlue
+        return sc
     }()
     
     override func viewDidLoad() {
@@ -68,8 +83,6 @@ class CreateEmployeeController: UIViewController {
     }
     
     @objc func handleSave() {
-        print("Saving employee")
-        
         guard let employeeName = nameTextField.text else { return }
         guard let company = self.company else { return }
         
@@ -89,7 +102,9 @@ class CreateEmployeeController: UIViewController {
             return
         }
         
-        let tuple = CoreDataManager.shared.createEmployee(employeeName: employeeName, birthday: birthdayDate, company: company)
+        guard let employeeType = employeeTypeSegmentedControl.titleForSegment(at: employeeTypeSegmentedControl.selectedSegmentIndex) else { return }
+        
+        let tuple = CoreDataManager.shared.createEmployee(employeeName: employeeName, employeeType: employeeType, birthday: birthdayDate, company: company)
         
         if let error = tuple.1 {
             // present an error modal
@@ -109,7 +124,7 @@ class CreateEmployeeController: UIViewController {
     }
     
     private func setupUI() {
-        _ = setupLightBlueBackgroundView(height: 100)
+        _ = setupLightBlueBackgroundView(height: 150)
 
         // Adding Name Label
         view.addSubview(nameLabel)
@@ -138,5 +153,11 @@ class CreateEmployeeController: UIViewController {
         birthdayTextField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         birthdayTextField.bottomAnchor.constraint(equalTo: birthdayLabel.bottomAnchor).isActive = true
         birthdayTextField.topAnchor.constraint(equalTo: birthdayLabel.topAnchor).isActive = true
+        
+        view.addSubview(employeeTypeSegmentedControl)
+        employeeTypeSegmentedControl.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 0).isActive = true
+        employeeTypeSegmentedControl.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16).isActive = true
+        employeeTypeSegmentedControl.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
+        employeeTypeSegmentedControl.heightAnchor.constraint(equalToConstant: 34).isActive = true
     }
 }

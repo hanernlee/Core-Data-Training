@@ -9,21 +9,41 @@
 import UIKit
 import CoreData
 
+class IndentedLabel: UILabel {
+    override func drawText(in rect: CGRect) {
+        let insets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+        let customRect = UIEdgeInsetsInsetRect(rect, insets)
+        super.drawText(in: customRect)
+    }
+}
+
 class EmployeesController: UITableViewController, CreateEmployeeControllerDelegate {
     
     var company: Company?
     
-    var employees = [Employee]()
+//    var employees = [Employee]()
+    var employeeTypes = [
+        EmployeeType.Executive.rawValue,
+        EmployeeType.SeniorManagement.rawValue,
+        EmployeeType.Staff.rawValue,
+        EmployeeType.Intern.rawValue
+    ]
     
     let cellID = "employeeCell"
     
     func didAddEmployee(employee: Employee) {
-        employees.append(employee)
+//        fetchEmployees()
+//        tableView.reloadData()
+
+        guard let section = employeeTypes.index(of: employee.type!) else { return }
         
-//        let newIndexPath = IndexPath(row: employees.count - 1, section: 0)
-//        tableView.insertRows(at: [newIndexPath], with: .automatic)
+        let row = allEmployees[section].count
         
-        tableView.reloadData()
+        let insertionIndexPath = IndexPath(row: row, section: section)
+        
+        allEmployees[section].append(employee)
+        
+        tableView.insertRows(at: [insertionIndexPath], with: .automatic)
     }
     
     // MARK: - View Lifecycle
@@ -48,19 +68,13 @@ class EmployeesController: UITableViewController, CreateEmployeeControllerDelega
     private func fetchEmployees() {
         guard let companyEmployees = company?.employees?.allObjects as? [Employee] else { return }
         
-        self.employees = companyEmployees
+        allEmployees = []
         
-//        let context = CoreDataManager.shared.persistentContainer.viewContext
-//
-//        let request = NSFetchRequest<Employee>(entityName: "Employee")
-//
-//        do {
-//            let employees = try context.fetch(request)
-//
-//            self.employees = employees
-//        } catch let error {
-//            print("Failed to fetch employees", error)
-//        }
+        employeeTypes.forEach { (employeeType) in
+            allEmployees.append(
+                companyEmployees.filter { $0.type == employeeType}
+            )
+        }
     }
     
     @objc private func handleAdd() {
@@ -74,14 +88,42 @@ class EmployeesController: UITableViewController, CreateEmployeeControllerDelega
         present(navController, animated: true, completion: nil)
     }
     
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = IndentedLabel()
+        
+        label.text = employeeTypes[section]
+        
+        label.textColor = .darkBlue
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.backgroundColor = .lightBlue
+        
+        return label
+    }
+    
+    var shortNameEmployees = [Employee]()
+    var longNameEmployees = [Employee]()
+    var reallyLongNameEmployees = [Employee]()
+    
+    var allEmployees = [[Employee]]()
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return allEmployees.count
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return employees.count
+        return allEmployees[section].count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
-        let employee = employees[indexPath.row]
+        let employee = allEmployees[indexPath.section][indexPath.row]
+        
+//        let employee = employees[indexPath.row]
         cell.textLabel?.text = employee.name
 
 //        if let taxId = employee.employeeInformation?.taxId {
