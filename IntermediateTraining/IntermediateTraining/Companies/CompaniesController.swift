@@ -32,12 +32,63 @@ class CompaniesController: UITableViewController {
         
         navigationItem.leftBarButtonItems = [
             UIBarButtonItem(title: "Reset", style: .plain, target: self, action: #selector(handleReset)),
-            UIBarButtonItem(title: "Do Updates", style: .plain, target: self, action: #selector(doUpdates))
+            UIBarButtonItem(title: "Nested Updates", style: .plain, target: self, action: #selector(doNestedUpdates))
         ]
         
         setupPlusButtonInNav(selector: #selector(handleAddCompany))
     }
     
+    @objc private func doNextedUpdates() {
+        print("Trying to perform nexted updates...")
+        DispatchQueue.global(qos: .background).async {
+            // Try perform our updates
+            
+            // First construct a custom ManagedObjectContext
+            
+            let privateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            privateContext.parent = CoreDataManager.shared.persistentContainer.viewContext
+            
+            // Execute updates on private context
+            let request: NSFetchRequest<Company> = Company.fetchRequest()
+            request.fetchLimit = 1
+            
+            do {
+                let companies = try privateContext.fetch(request)
+                
+                companies.forEach({ (company) in
+                    print(company.name ?? "")
+                    company.name = "D: \(company.name ?? "")"
+                })
+                
+                do {
+                    try privateContext.save()
+                    
+                    // After save succeeds
+                    DispatchQueue.main.async {
+                        
+                        do {
+                            let context = CoreDataManager.shared.persistentContainer.viewContext
+                            
+                            if context.hasChanges {
+                                try context.save()
+                            }
+                            self.tableView.reloadData()
+                        } catch let finalSaveError {
+                            print("Failed to save on main context", finalSaveError)
+                        }
+                    }
+                    
+                } catch let saveError {
+                    print("Failed to save private context", saveError)
+                }
+                
+            } catch let fetchError {
+                print("FZailed to fetch on private context", fetchError)
+            }
+        }
+    }
+    
+    // Not recommended due to separate context
     @objc private func doUpdates() {
         print("Trying to update compannies in background context")
         
