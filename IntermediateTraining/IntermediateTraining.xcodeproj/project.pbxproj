@@ -34,6 +34,7 @@
 		503BB8581FB50C1200F08F6A /* CreateEmployeeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmployeeController.swift; sourceTree = "<group>"; };
 		507645E31FB8063C00F10CDE /* CompaniesAutoUpdateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompaniesAutoUpdateController.swift; sourceTree = "<group>"; };
 		507645E71FB82C9100F10CDE /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		507645E91FB88B5900F10CDE /* IntermediateTrainingModels_v1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IntermediateTrainingModels_v1.1.xcdatamodel; sourceTree = "<group>"; };
 		50B0F52B1FB1DD610072A414 /* CompanyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyCell.swift; sourceTree = "<group>"; };
 		50B0F52E1FB1EB7C0072A414 /* CompaniesController+CreateCompany.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompaniesController+CreateCompany.swift"; sourceTree = "<group>"; };
 		50B0F5301FB1EC320072A414 /* CompaniesController+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompaniesController+UITableView.swift"; sourceTree = "<group>"; };
@@ -407,9 +408,10 @@
 		50D09DF11FA9F71400D9906E /* IntermediateTrainingModels.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				507645E91FB88B5900F10CDE /* IntermediateTrainingModels_v1.1.xcdatamodel */,
 				50D09DF21FA9F71400D9906E /* IntermediateTrainingModels.xcdatamodel */,
 			);
-			currentVersion = 50D09DF21FA9F71400D9906E /* IntermediateTrainingModels.xcdatamodel */;
+			currentVersion = 507645E91FB88B5900F10CDE /* IntermediateTrainingModels_v1.1.xcdatamodel */;
 			path = IntermediateTrainingModels.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

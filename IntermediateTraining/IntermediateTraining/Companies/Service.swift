@@ -55,7 +55,7 @@ struct Service {
                         print("  \(jsonEmployee.name)")
                         
                         let employee = Employee(context: privateContext)
-                        employee.name = jsonEmployee.name
+                        employee.fullName = jsonEmployee.name
                         employee.type = jsonEmployee.type
                         
                         let employeeInformation = EmployeeInformation(context: privateContext)
