@@ -38,7 +38,7 @@ class CompaniesController: UITableViewController {
         setupPlusButtonInNav(selector: #selector(handleAddCompany))
     }
     
-    @objc private func doNextedUpdates() {
+    @objc private func doNestedUpdates() {
         print("Trying to perform nexted updates...")
         DispatchQueue.global(qos: .background).async {
             // Try perform our updates
