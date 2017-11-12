@@ -72,7 +72,7 @@ struct Service {
                         try privateContext.save()
                         try privateContext.parent?.save()
                     } catch let error {
-                        print("Failed to save companies", error)
+                        print("Failed to save companies & employees", error)
                     }
                     
                 })
